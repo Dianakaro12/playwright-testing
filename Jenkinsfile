@@ -3,9 +3,15 @@ pipeline {
 
     stages {
 
+    stage('Clean Workspace') {
+        steps {
+            deleteDir()
+        }
+    }
+
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/Dianakaro12/qaautomated.git'
+                git url: 'https://github.com/Dianakaro12/playwright-testing'
             }
         }
 
@@ -50,7 +56,7 @@ pipeline {
                 allure([
                     results: [[path: 'target/allure-results']],
                     reportBuildPolicy: 'ALWAYS',
-                    commandline: 'AllureCLI' // <- nombre que configuraste en Jenkins Global Tools
+                    commandline: 'Allure'
                 ])
             }
         }
