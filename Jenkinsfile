@@ -45,14 +45,13 @@ pipeline {
             }
         }
 
-       stage('Allure Report') {
-           steps {
-               allure([
-                   results: [[path: 'target/allure-results']],
-                   reportBuildPolicy: 'ALWAYS',
-                   commandline: 'AllureCLI' // <- aquí el nombre que configuraste
-               ])
-                }
+        stage('Allure Report') {
+            steps {
+                allure([
+                    results: [[path: 'target/allure-results']],
+                    reportBuildPolicy: 'ALWAYS',
+                    commandline: 'AllureCLI' // <- nombre que configuraste en Jenkins Global Tools
+                ])
             }
         }
 
