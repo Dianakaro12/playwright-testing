@@ -45,13 +45,13 @@ pipeline {
             }
         }
 
-        stage('Allure Report') {
-            steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    allure([
-                        results: [[path: 'target/allure-results']],
-                        reportBuildPolicy: 'ALWAYS'
-                    ])
+       stage('Allure Report') {
+           steps {
+               allure([
+                   results: [[path: 'target/allure-results']],
+                   reportBuildPolicy: 'ALWAYS',
+                   commandline: 'AllureCLI' // <- aquí el nombre que configuraste
+               ])
                 }
             }
         }
