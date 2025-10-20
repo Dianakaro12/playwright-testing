@@ -11,8 +11,8 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-               // Solo JSON para Xray y Allure
-               bat 'mvn clean test -Dcucumber.plugin="pretty,json:target/cucumber-report.json"'
+                // Solo JSON para Xray y Allure
+                bat 'mvn clean test -Dcucumber.plugin="pretty,json:target/cucumber-report.json"'
             }
         }
 
@@ -47,15 +47,20 @@ pipeline {
 
         stage('Allure Report') {
             steps {
-                allure([
-                    results: [[path: 'target/allure-results']]
-                ])
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    allure([
+                        results: [[path: 'target/allure-results']],
+                        reportBuildPolicy: 'ALWAYS'
+                    ])
+                }
             }
         }
 
         stage('Explicar errores con IA') {
             steps {
-                bat 'java -cp target/classes;target/dependency/* utils.ExplainerMain'
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    bat 'java -cp target/classes;target/dependency/* utils.ExplainerMain'
+                }
             }
         }
 
